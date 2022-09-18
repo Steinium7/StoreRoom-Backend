@@ -1,0 +1,27 @@
+{
+  "name": "storeroom-backend",
+  "version": "1.0.0",
+  "description": "Backend Implementation for a storeroom app in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Steinium7/StoreRoom-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Steinium7/StoreRoom-Backend/issues"
+  },
+  "homepage": "https://github.com/Steinium7/StoreRoom-Backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "config": "^3.3.8",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1",
+    "nodemon": "^2.0.20"
+  }
+}
