@@ -16,4 +16,5 @@ const User = mongoose.model('users', new mongoose.Schema({
         type:String,
         required:true
     }
+
 }))

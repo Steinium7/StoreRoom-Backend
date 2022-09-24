@@ -1,12 +1,11 @@
-import express from "express";
-import config from 'config'
-import mongoose from "mongoose";
+const express = require('express')
+const config = require('config')
+const mongoose = require('mongoose')
 const user = require('./routes/User.js')
 
 const app = express()
-app.use(cors())
-app.use(json())
-app.use(user, '/api/user')
+app.use(express.json())
+app.use('/api/user', user)
 
 
 mongoose.connect('mongodb://localhost/test').then(()=>console.log("connected to Db"))
