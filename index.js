@@ -1,19 +1,21 @@
 const express = require('express')
 const config = require('config')
-const mongoose = require('mongoose')
 const user = require('./routes/User.js')
+const home = require('./routes/Home')
 
 const app = express()
 app.use(express.json())
 app.use('/api/user', user)
+app.use('/api/home', home)
+
+if (config.get('env') == 'production')
+    require('./startup/db')
 
 
-mongoose.connect('mongodb://localhost/test').then(()=>console.log("connected to Db"))
-.catch((err)=>console.log(err))
+port = process.env.PORT || 3000;
+if (config.get('env') == 'production')
+    app.listen(port, () => {
+        // winston.info(`Listening on Port ${port}`);
+    });
 
-
-app.get('/', (req, res)=>{
-    res.send({data: 'data'})
-}) 
-
-app.listen(5000, ()=> console.log("listening on port 5000"))
+module.exports = app;
