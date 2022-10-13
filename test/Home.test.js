@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../index');
 
-jest.setTimeout(10000);
+jest.setTimeout(12000);
 
 beforeEach((done) => {
     mongoose.connect('mongodb://localhost/JestDBM', async () => {
@@ -16,24 +16,15 @@ afterEach((done) => {
     });
 });
 
-describe('/api/user', () => {
+describe('/api/home', () => {
     it('should return a data object', async () => {
         await supertest(app)
-            .post('/api/user/signup')
-            .send({
-                name: 'Mike the Anorak',
-                email: 'home@hotmail.com',
-                phone: '0241333633',
-            })
+            .get('/api/home/')
             .expect(200)
             .then((response) => {
-                expect(response.body).toMatchObject({
-                    name: 'Mike the Anorak',
-                    email: 'home@hotmail.com',
-                    phone: 241333633,
-                });
+                expect(response.body).toMatchObject({ data: '1' });
             });
-    }),
+    }, 30000),
         it('some', () => {
             expect(1).toEqual(1);
         });
