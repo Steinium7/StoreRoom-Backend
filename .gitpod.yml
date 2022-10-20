@@ -1,7 +1,8 @@
 image:
-  file: .gitpod.dockerfile
+    file: .gitpod.dockerfile
 
 tasks:
-  - init: npm install
-    command: npm i -g nodemon
-  - command: mkdir -p /workspace/data && mongod --dbpath /workspace/data
+    - init: npm install
+      command: npm i -g nodemon
+    - command: mkdir -p /workspace/data && mongod --dbpath /workspace/data
+    - command: export PASS='password'
