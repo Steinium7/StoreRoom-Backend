@@ -4,6 +4,7 @@ const app = require('../index');
 const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const bcrypt = require('bcrypt');
 
 jest.setTimeout(8000);
 
@@ -84,11 +85,14 @@ describe('/api/user/signup', () => {
 
 describe('/api/user/login', () => {
     it('should return token on login', async () => {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash('1234567890', salt);
+
         let newUser = new User({
             name: 'Mike the Anorak',
             email: 'home@hotmail.com',
             phone: '0241333633',
-            password: '1234567890',
+            password: hash,
         });
 
         newUser = await newUser.save();
