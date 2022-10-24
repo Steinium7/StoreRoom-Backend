@@ -1,19 +1,21 @@
 const express = require('express');
 const config = require('config');
-// const winston = require('winston');
+const error = require('./middleware/error');
 const user = require('./routes/User.js');
 const home = require('./routes/Home');
-const { main, logger } = require('./startup/logging');
+require('express-async-errors');
+const { uncaughtExceptions, logger } = require('./startup/logging');
 
 const app = express();
-main();
+uncaughtExceptions();
 app.use(express.json());
 app.use('/api/user', user);
 app.use('/api/home', home);
+app.use(error);
 
 if (config.get('env') != 'testing') {
-    // logger = require('./startup/logging')();
     require('./startup/db');
+    require('./startup/prod')(app);
 }
 
 port = process.env.PORT || 3000;

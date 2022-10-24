@@ -2,7 +2,7 @@ const { transports, createLogger, format } = require('winston');
 const winston = require('winston');
 const config = require('config');
 
-const main = function () {
+const uncaughtExceptions = function () {
     process.on('uncaughtException', (ex) => {
         throw ex;
     });
@@ -14,26 +14,6 @@ const main = function () {
         { timestamp: true }
     );
 };
-
-// if (config.get('env') == 'production') {
-//     winston.add(
-//         new winston.transports.File({
-//             filename: 'error.log',
-//             level: 'error',
-//         }),
-//         { timestamp: true }
-//     );
-//     winston.add(
-//         new winston.transports.File({
-//             filename: 'info.log',
-//             level: 'info',
-//         }),
-//         { timestamp: true }
-//     );
-// }
-// winston.remove(winston.transports.Console);
-// winston.add(new winston.transports.Console(), { timestamp: true });
-// .add(winston.Logform.format.timestamp());
 
 const logger = createLogger({
     format: format.combine(format.timestamp(), format.json()),
@@ -54,4 +34,4 @@ if (config.get('env') != 'production') {
     logger.remove(winston.transports.File);
 }
 
-module.exports = { main, logger };
+module.exports = { uncaughtExceptions, logger };

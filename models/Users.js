@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    NumofShops: {
+        type: Number,
+        default: 0,
+    },
+    Shops: {
+        type: Array,
+        default: [],
+    },
 });
 
 userSchema.methods.generateToken = function () {
