@@ -36,6 +36,32 @@ describe('Model function', () => {
     });
 });
 
+describe('/api/user/all', () => {
+    it('should return all users', async () => {
+        let newUser = new User({
+            name: 'Mike the Anorak',
+            email: 'home@hotmail.com',
+            phone: '0241333633',
+            password: '1234567890',
+        });
+
+        newUser = await newUser.save();
+
+        if (newUser) {
+            await supertest(app)
+                .get('/api/user/all')
+                .expect(200)
+                .then((response) => {
+                    expect(response.body[0]).toMatchObject({
+                        name: 'Mike the Anorak',
+                        email: 'home@hotmail.com',
+                        phone: 241333633,
+                    });
+                });
+        }
+    });
+});
+
 describe('/api/user/signup', () => {
     it('should return a data object after signup', async () => {
         await supertest(app)
@@ -147,4 +173,89 @@ describe('/api/user/login', () => {
                     });
             }
         });
+});
+
+describe('/api/user/:id', () => {
+    it('should return a user by id', async () => {
+        let newUser = new User({
+            name: 'Mike the Anorak',
+            email: 'home@hotmail.com',
+            phone: '0241333633',
+            password: '1234567890',
+        });
+
+        newUser = await newUser.save();
+
+        if (newUser) {
+            await supertest(app)
+                .get(`/api/user/${newUser._id}`)
+                .expect(200)
+                .then((response) => {
+                    expect(response.body).toMatchObject({
+                        name: 'Mike the Anorak',
+                        email: 'home@hotmail.com',
+                        phone: 241333633,
+                    });
+                });
+        }
+    });
+
+    it('should return error if user is not found', async () => {
+        await supertest(app)
+            .get('/api/user/635968d7f845fb5b1cd9510b')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.err).toEqual('User not found');
+            });
+    });
+
+    it('should return an updated user detail', async () => {
+        let newUser = new User({
+            name: 'Mike the Anorak',
+            email: 'home@hotmail.com',
+            phone: '0241333633',
+            password: '1234567890',
+        });
+
+        newUser = await newUser.save();
+
+        if (newUser) {
+            await supertest(app)
+                .patch(`/api/user/${newUser._id}`)
+                .send({
+                    name: 'Mike the Superman',
+                    email: 'home@hotmail.com',
+                    phone: 241333633,
+                    password: '1234567890',
+                })
+                .expect(200)
+                .then((response) => {
+                    expect(response.body).toMatchObject({
+                        name: 'Mike the Superman',
+                        email: 'home@hotmail.com',
+                        phone: 241333633,
+                    });
+                });
+        }
+    });
+
+    it('should delete a user', async () => {
+        let newUser = new User({
+            name: 'Mike the Anorak',
+            email: 'home@hotmail.com',
+            phone: '0241333633',
+            password: '1234567890',
+        });
+
+        newUser = await newUser.save();
+
+        if (newUser) {
+            await supertest(app)
+                .delete(`/api/user/${newUser._id}`)
+                .expect(200)
+                .then((response) => {
+                    expect(response.body.msg).toEqual('Deleted');
+                });
+        }
+    });
 });
