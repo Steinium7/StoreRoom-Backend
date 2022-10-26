@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const workerSchema = new mongoose.Schema({
     name: {
@@ -10,7 +12,13 @@ const workerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    AssignedShop: {
+    phone: {
+        type: Number,
+        minlength: 10,
+        maxlength: 14,
+        required: true,
+    },
+    assignedShop: {
         type: String,
         required: true,
     },
@@ -25,6 +33,10 @@ const workerSchema = new mongoose.Schema({
         default: 'worker',
     },
 });
+
+workerSchema.methods.generateToken = function () {
+    return jwt.sign({ _id: this._id }, config.get('jwtKey'));
+};
 
 const Worker = mongoose.model('workers', workerSchema);
 

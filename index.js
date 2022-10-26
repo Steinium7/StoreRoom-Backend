@@ -3,6 +3,7 @@ const config = require('config');
 const error = require('./middleware/error');
 const user = require('./routes/User.js');
 const home = require('./routes/Home');
+const worker = require('./routes/Worker');
 require('express-async-errors');
 const { uncaughtExceptions, logger } = require('./startup/logging');
 
@@ -11,6 +12,7 @@ uncaughtExceptions();
 app.use(express.json());
 app.use('/api/user', user);
 app.use('/api/home', home);
+app.use('/api/worker', worker);
 app.use(error);
 
 if (config.get('env') != 'testing') {
