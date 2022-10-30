@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../index');
 
-jest.setTimeout(12000);
+jest.setTimeout(30000);
 
 beforeEach((done) => {
     mongoose.connect('mongodb://localhost/JestDBM', async () => {

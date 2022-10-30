@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcrypt');
 
-jest.setTimeout(8000);
+jest.setTimeout(30000);
 
 beforeEach((done) => {
-    mongoose.connect('mongodb://localhost/JestDBM', async () => {
+    mongoose.connect('mongodb://localhost/JestDBM3', async () => {
         done();
     });
 });
