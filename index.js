@@ -5,6 +5,7 @@ const user = require('./routes/User.js');
 const home = require('./routes/Home');
 const worker = require('./routes/Worker');
 const storeroom = require('./routes/Storeroom');
+const inventory = require('./routes/Inventory');
 require('express-async-errors');
 const { uncaughtExceptions, logger } = require('./startup/logging');
 
@@ -15,6 +16,7 @@ app.use('/api/user', user);
 app.use('/api/home', home);
 app.use('/api/worker', worker);
 app.use('/api/storeroom', storeroom);
+app.use('/api/inventory', inventory);
 app.use(error);
 
 if (config.get('env') != 'testing') {

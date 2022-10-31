@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../index');
-const Storeroom = require('../models/Storeroom');
+const { Storeroom } = require('../models/Storeroom');
 
 jest.setTimeout(30000);
 

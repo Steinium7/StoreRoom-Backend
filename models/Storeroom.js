@@ -38,10 +38,10 @@ const storeroomInventorySchema = new mongoose.Schema({
     },
 });
 
-storeroomSchema.methods.generateStoreroomInv = function (storeRoomName) {
+const generateStoreroomInv = function (storeRoomName) {
     return mongoose.model(storeRoomName, storeroomInventorySchema);
 };
 
 const Storeroom = mongoose.model('storeroom', storeroomSchema);
 
-module.exports = Storeroom;
+module.exports = { Storeroom, generateStoreroomInv };

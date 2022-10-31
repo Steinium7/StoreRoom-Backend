@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const Storeroom = require('../models/Storeroom');
+const { Storeroom } = require('../models/Storeroom');
 const router = express.Router();
 const _ = require('lodash');
 
 router.post('/create', async (req, res) => {
     let storeroom = await Storeroom.find({ name: req.body.name });
-    // console.log(storeroom);
+
     if (storeroom.length != 0) {
         return res
             .status(400)
