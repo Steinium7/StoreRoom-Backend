@@ -19,7 +19,7 @@ app.use('/api/storeroom', storeroom);
 app.use('/api/inventory', inventory);
 app.use(error);
 
-if (config.get('env') != 'testing') {
+if (config.get('env') != 'test') {
     require('./startup/db');
     require('./startup/prod')(app);
 }
