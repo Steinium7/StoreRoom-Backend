@@ -35,7 +35,7 @@ const workerSchema = new mongoose.Schema({
 });
 
 workerSchema.methods.generateToken = function () {
-    return jwt.sign({ _id: this._id }, config.get('jwtKey'));
+    return jwt.sign({ _id: this._id, role: this.role }, config.get('jwtKey'));
 };
 
 const Worker = mongoose.model('workers', workerSchema);

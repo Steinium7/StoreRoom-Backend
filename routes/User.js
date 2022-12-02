@@ -2,12 +2,14 @@ const express = require('express');
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const admin = require('../middleware/admin');
+const auth = require('../middleware/auth');
 const ObjectId = mongoose.Types.ObjectId;
 const _ = require('lodash');
 
 const router = express.Router();
 
-router.get('/all', async (req, res) => {
+router.get('/all', auth, admin, async (req, res) => {
     let data = await User.find({});
     data.reduce((a) => {
         return _.omit(a, ['password']);
@@ -15,14 +17,14 @@ router.get('/all', async (req, res) => {
     res.status(200).send(data);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, admin, async (req, res) => {
     let user = await User.findById(new ObjectId(req.params.id));
     if (!user) return res.status(404).send({ err: 'User not found' });
 
     return res.status(200).send(_.omit(user, ['password']));
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
     let user = await User.findByIdAndUpdate(
         new ObjectId(req.params.id),
         req.body,
@@ -35,7 +37,7 @@ router.patch('/:id', async (req, res) => {
     return res.status(200).send(_.omit(user, ['password']));
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     let user = await User.findByIdAndDelete(new ObjectId(req.params.id));
     if (!user) return res.status(404).send({ err: 'User not found' });
 
@@ -68,7 +70,7 @@ router.post('/login', async (req, res) => {
     if (!result) return res.status(400).send({ err: 'Invalid Credentials' });
 
     let token = user.generateToken();
-    res.status(200).send(token);
+    res.status(200).send({ access_token: token });
 });
 
 module.exports = router;

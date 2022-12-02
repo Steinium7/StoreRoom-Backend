@@ -6,6 +6,23 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcrypt');
 
+jest.mock('../middleware/manager');
+jest.mock('../middleware/auth');
+jest.mock('../middleware/worker');
+jest.mock('../middleware/admin');
+jest.mock('../middleware/owner');
+const manager = require('../middleware/manager');
+const auth = require('../middleware/auth');
+const worker = require('../middleware/worker');
+const admin = require('../middleware/admin');
+const owner = require('../middleware/owner');
+
+auth.mockImplementation((req, res, next) => next());
+admin.mockImplementation((req, res, next) => next());
+owner.mockImplementation((req, res, next) => next());
+worker.mockImplementation((req, res, next) => next());
+manager.mockImplementation((req, res, next) => next());
+
 jest.setTimeout(30000);
 
 beforeEach((done) => {

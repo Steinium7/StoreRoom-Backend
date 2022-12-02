@@ -2,12 +2,14 @@ const express = require('express');
 const Worker = require('../models/Worker');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const manager = require('../middleware/manager');
+const auth = require('../middleware/auth');
 const ObjectId = mongoose.Types.ObjectId;
 const _ = require('lodash');
 
 const router = express.Router();
 
-router.get('/all', async (req, res) => {
+router.get('/all', auth, manager, async (req, res) => {
     let data = await Worker.find({});
     data.reduce((a) => {
         return _.omit(a, ['password']);
@@ -15,7 +17,7 @@ router.get('/all', async (req, res) => {
     res.status(200).send(data);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, manager, async (req, res) => {
     let worker = await Worker.findById(new ObjectId(req.params.id));
     if (!worker) return res.status(404).send({ err: 'Worker not found' });
 
@@ -23,7 +25,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // To correct later
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, manager, async (req, res) => {
     let worker = await Worker.findByIdAndUpdate(
         new ObjectId(req.params.id),
         req.body,
@@ -36,7 +38,7 @@ router.patch('/:id', async (req, res) => {
     return res.status(200).send(_.omit(worker, ['password']));
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, manager, async (req, res) => {
     let worker = await Worker.findByIdAndDelete(new ObjectId(req.params.id));
     if (!worker) return res.status(404).send({ err: 'Worker not found' });
 

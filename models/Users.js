@@ -30,10 +30,15 @@ const userSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'owner',
+    },
 });
 
 userSchema.methods.generateToken = function () {
-    return jwt.sign({ _id: this._id }, config.get('jwtKey'));
+    return jwt.sign({ _id: this._id, role: this.role }, config.get('jwtKey'));
 };
 
 const User = mongoose.model('users', userSchema);
