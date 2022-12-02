@@ -28,4 +28,5 @@ jobs:
         cache: 'npm'
     - name: Start Docker for mongodb
       run: docker run -d -p 27017:27017 mongo
-    - run: npm test
+    - run: npm i -g jest
+    - run: npm run test
